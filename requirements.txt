@@ -1,0 +1,22 @@
+# requirements for the python project
+
+# essential
+numpy
+tensorflow
+keras
+
+# optional
+opencv-python
+keras_tuner
+sklearn
+matplotlib
+jupyter
+selenium
+
+# development
+black
+isort
+pylint
+pycodestyle
+pep8-naming
+pydocstyle

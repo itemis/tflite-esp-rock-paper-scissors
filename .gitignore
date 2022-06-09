@@ -1,0 +1,23 @@
+.vscode
+credentials.h
+data/*
+__pycache__
+bin_model/*
+build
+# TODO: ideally the sdkconfig is generated, not tracked
+# sdkconfig
+sdkconfig.old
+sdkconfig.bak
+dependencies.lock
+
+# Local dependecy backup
+src/tinyml_deployment/components.bak
+# Dependencies extracted from submodules
+src/tinyml_deployment/components/*
+# Submodules from which components are extracted
+!components/sources
+
+src/tinyml_deployment/out.txt
+
+
+src/tinyml_deployment/dependencies.lock

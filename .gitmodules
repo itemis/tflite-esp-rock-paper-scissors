@@ -1,0 +1,3 @@
+[submodule "src/tinyml_deployment/components/sources/tflite-micro-esp-examples"]
+	path = src/tinyml_deployment/components/sources/tflite-micro-esp-examples
+	url = https://github.com/espressif/tflite-micro-esp-examples

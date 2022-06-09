@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "tflite-esp32-eye-paper-stone-scissors"
+version = "0.1.0"
+description = "rock paper scissors on esp-eye with tflite micro, free rtos and esp-idf"
+authors = ["Rafael Tappe Maestro <rtappe@itemis.com>, Nikolas Rieder <nrieder@itemis.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = "^1.22.4"
+keras = "^2.9.0"
+opencv-python = {version = "^4.5.5", optional = true}
+keras-tuner = {version = "^1.1.2", optional = true}
+sklearn = {version = "^0.0", optional = true}
+matplotlib = {version = "^3.5.2", optional = true}
+jupyter = {version = "^1.0.0", optional = true}
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
