@@ -9,8 +9,7 @@ from pathlib import Path
 from tensorflow import keras
 
 # define constants
-MODEL_PATH = Path("bin_model")
-assert MODEL_PATH.exists(), "The path to save your model does not exist!"
+MODEL_PATH = Path("bin_model").mkdir(exist_ok=True)
 EPOCHS = 10
 
 # init command line argument parser

@@ -12,6 +12,8 @@ sklearn
 matplotlib
 jupyter
 selenium
+pydot # requires graphviz https://www.graphviz.org/download/
+
 
 # development
 black
