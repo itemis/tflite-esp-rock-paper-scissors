@@ -138,3 +138,29 @@ Compile model and flash to device.
 
     cd src/tinyml_deployment && get_idf && idf.py build && idf.py -p /dev/ttyUSB0 flash monitor
 
+# Architecture
+
+See the [architecture description](ARCHITECTURE.md) in the root directory of this source tree.
+
+# Contributing
+
+Pull requests are welcome.
+We don't have a specific template for PRs.
+Please follow style guides for Python and C++.
+For Python style, we follow [PEP 8](https://peps.python.org/pep-0008/) and [PEP 257](https://peps.python.org/pep-0257/).
+For C++ we follow the [Google style guide](https://google.github.io/styleguide/cppguide.html).
+See the [contributing guideline](CONTRIBUTING.md) in the root directory of this source tree. 
+
+# License
+
+Copyright (c) 2022 itemis AG<br>
+All rights reserved.
+
+This source code is licensed under the Apache-2.0 license found in the [license](LICENSE.md) file in the root directory of this source tree. 
+
+# Contact
+
+Feel free to contact us directly with questions.
+
+rafael.tappe.maestro@itemis.com<br>
+nikolas.rieder@itemis.com
