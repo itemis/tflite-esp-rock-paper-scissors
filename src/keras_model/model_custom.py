@@ -123,12 +123,12 @@ def make_model_optimized_cnn(INPUT_IMG_SHAPE, num_classes=3):
     outputs = layers.Dense(units, activation=activation)(x)
     return keras.Model(inputs, outputs)
 
-def make_model_custom(INPUT_IMG_SHAPE, model_type):
+def make_model_custom(INPUT_IMG_SHAPE, NUM_CLASSES, model_type):
     if model_type == "simple-dense":
-        return make_model_simple_dense(INPUT_IMG_SHAPE)
+        return make_model_simple_dense(INPUT_IMG_SHAPE, NUM_CLASSES)
     if model_type == "simple-cnn":
-        return make_model_simple_cnn(INPUT_IMG_SHAPE)
+        return make_model_simple_cnn(INPUT_IMG_SHAPE, NUM_CLASSES)
     if model_type == "optimized-cnn":
-        return make_model_optimized_cnn(INPUT_IMG_SHAPE)
+        return make_model_optimized_cnn(INPUT_IMG_SHAPE, NUM_CLASSES)
     else:
         print("UNKOWN MODEL DEFINITION.")

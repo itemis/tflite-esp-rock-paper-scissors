@@ -1,7 +1,7 @@
 from model_custom import make_model_custom
 from model_mobile import make_model_mobile
 from model_resnet50 import make_model_resnet50
-from dataset import train_ds, test_ds, hard_ds, INPUT_IMG_SHAPE, BATCH_SIZE
+from dataset import train_ds, test_ds, INPUT_IMG_SHAPE, BATCH_SIZE
 
 import argparse
 from pathlib import Path
@@ -9,7 +9,9 @@ from pathlib import Path
 from tensorflow import keras
 
 # define constants
-MODEL_PATH = Path("bin_model").mkdir(exist_ok=True)
+NUM_CLASSES = len(train_ds.class_names)
+MODEL_PATH = Path("bin_model")
+MODEL_PATH.mkdir(exist_ok=True)
 EPOCHS = 10
 
 # init command line argument parser
@@ -36,13 +38,13 @@ def main():
         model = make_model_resnet50(INPUT_IMG_SHAPE)
     if args.model == "simple-dense":
         print("Custom simple-dense model.")
-        model = make_model_custom(INPUT_IMG_SHAPE, args.model)
+        model = make_model_custom(INPUT_IMG_SHAPE, NUM_CLASSES, args.model)
     if args.model == "simple-cnn":
         print("Custom simple-cnn model.")
-        model = make_model_custom(INPUT_IMG_SHAPE, args.model)
+        model = make_model_custom(INPUT_IMG_SHAPE, NUM_CLASSES, args.model)
     if args.model == "optimized-cnn":
         print("Custom optimized-cnn model.")
-        model = make_model_custom(INPUT_IMG_SHAPE, args.model)
+        model = make_model_custom(INPUT_IMG_SHAPE, NUM_CLASSES, args.model)
     keras.utils.plot_model(model, show_shapes=True, to_file=MODEL_PATH / "model.png")
 
     # define callbacks
@@ -81,9 +83,5 @@ def main():
 
     # save fully trained model
     model.save(MODEL_PATH / "keras_model")
-    
-    # evaluate model on a difficult set
-    print("Evaluation on difficult data set.")
-    _, _ = model.evaluate(hard_ds)
 
 main()

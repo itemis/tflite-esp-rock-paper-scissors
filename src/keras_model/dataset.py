@@ -24,11 +24,3 @@ test_ds = tf.keras.utils.image_dataset_from_directory(
     image_size=IMG_WIDTH_HEIGHT,
     color_mode='grayscale'
     )
-hard_ds = tf.keras.utils.image_dataset_from_directory(
-    directory= DATA_ROOT / "hard",
-    labels='inferred',
-    label_mode='categorical',
-    batch_size=BATCH_SIZE,
-    image_size=IMG_WIDTH_HEIGHT,
-    color_mode='grayscale'
-    )
