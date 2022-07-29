@@ -4,10 +4,10 @@ data/*
 __pycache__
 bin_model/*
 build
-# TODO: ideally the sdkconfig is generated, not tracked
-# sdkconfig
+
 sdkconfig.old
 sdkconfig.bak
+sdkconfig
 dependencies.lock
 
 # Local dependecy backup

@@ -164,8 +164,7 @@ uint8_t ensembleVote(uint8_t* img, uint8_t num_reps, float delay) {
 
     for (uint8_t i = 0; i < num_reps; i++) {
         makePrediction(img);
-        uint8_t player_move = prediction_interpreter.GetResult(model_output);
-        //uint8_t player_move = interpretPrediction();
+        player_move = prediction_interpreter.GetResult(model_output);
         class_count[player_move] += 1;
         vTaskDelay(delay * pdSECOND); // FreeRTOS delay in seconds
     }
