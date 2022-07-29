@@ -1,18 +1,22 @@
 #!/bin/bash
 git submodule update --init --recursive # download submodules
 
-components=src/tinyml_deployment/components
+
+# make script executable form any path within project
+SCRIPT=$(readlink -f $0)
+SCRIPTPATH=`dirname $SCRIPT`
+COMPONENT_PATH=$SCRIPTPATH/components
 
 # TFMICRO and ESP-NN components
 # delete old components
-rm -r $components/tfmicro
-rm -r $components/esp-nn
-rm -r $components/esp32-camera
+rm -r $COMPONENT_PATH/tfmicro
+rm -r $COMPONENT_PATH/esp-nn
+rm -r $COMPONENT_PATH/esp32-camera
 
 # extract new components from submodule
-cp -r $components/sources/tflite-micro-esp-examples/components/tflite-lib $components/tfmicro
-cp -r $components/sources/tflite-micro-esp-examples/components/esp-nn $components/esp-nn
-cp -r $components/sources/tflite-micro-esp-examples/components/esp32-camera $components/esp32-camera
+cp -r $COMPONENT_PATH/sources/tflite-micro-esp-examples/components/tflite-lib $COMPONENT_PATH/tfmicro
+cp -r $COMPONENT_PATH/sources/tflite-micro-esp-examples/components/esp-nn $COMPONENT_PATH/esp-nn
+cp -r $COMPONENT_PATH/sources/tflite-micro-esp-examples/components/esp32-camera $COMPONENT_PATH/esp32-camera
 
 # TODO:
 # pull esp-nn from https://github.com/espressif/esp-nn/

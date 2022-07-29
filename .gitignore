@@ -15,7 +15,7 @@ src/tinyml_deployment/components.bak
 # Dependencies extracted from submodules
 src/tinyml_deployment/components/*
 # Submodules from which components are extracted
-!components/sources
+!src/tinyml_deployment/components/sources
 
 src/tinyml_deployment/out.txt
 
