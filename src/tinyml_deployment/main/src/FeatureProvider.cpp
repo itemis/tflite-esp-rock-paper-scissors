@@ -1,6 +1,6 @@
 #include <vector>
 #include <stdint.h>
-#include "feature_provider.h"
+#include "FeatureProvider.h"
 
 // receive sensory data for preprocessing
 void FeatureProvider::receiveData(std::vector<uint8_t> img){

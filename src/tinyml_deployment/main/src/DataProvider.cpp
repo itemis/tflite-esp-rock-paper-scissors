@@ -4,8 +4,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "data_provider.h"
-#include "im_grayscale.h"
+#include "DataProvider.h"
 
 #include "app_camera_esp.h"
 #include "esp_camera.h"

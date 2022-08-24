@@ -8,8 +8,8 @@
 #include <ctime> 
 
 #include "main_functions.h"
-#include "data_provider.h"
-#include "feature_provider.h"
+#include "DataProvider.h"
+#include "FeatureProvider.h"
 #include "model_weights.h" // C-string with trained model weights
 #include "PredictionHandler.h"
 #include "PredictionInterpreter.h"
