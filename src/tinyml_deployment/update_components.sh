@@ -1,17 +1,21 @@
 #!/bin/bash
-git submodule update --init --recursive # download submodules
-
+echo "---- ---- ---- ---- ---- ----"
+echo "---- ---- ---- UPDATING COMPONENTS"
+echo "---- ---- ---- ---- ---- ----"
 
 # make script executable form any path within project
 SCRIPT=$(readlink -f $0)
 SCRIPTPATH=`dirname $SCRIPT`
 COMPONENT_PATH=$SCRIPTPATH/components
 
+# download submodules
+git submodule update --init --recursive
+
 # TFMICRO and ESP-NN components
 # delete old components
-rm -r $COMPONENT_PATH/tfmicro
-rm -r $COMPONENT_PATH/esp-nn
-rm -r $COMPONENT_PATH/esp32-camera
+rm -rf $COMPONENT_PATH/tfmicro
+rm -rf $COMPONENT_PATH/esp-nn
+rm -rf $COMPONENT_PATH/esp32-camera
 
 # extract new components from submodule
 cp -r $COMPONENT_PATH/sources/tflite-micro-esp-examples/components/tflite-lib $COMPONENT_PATH/tfmicro

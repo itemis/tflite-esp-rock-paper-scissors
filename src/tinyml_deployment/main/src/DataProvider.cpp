@@ -4,8 +4,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "data_provider.h"
-#include "im_grayscale.h"
+#include "DataProvider.h"
 
 #include "app_camera_esp.h"
 #include "esp_camera.h"
@@ -115,7 +114,7 @@ void DataProvider::dataProviderBegin(){
 void DataProvider::gatherData(){
 
     // TODO: set loaded img via camera
-    DataProvider::loaded_img = grayscale;
+    // DataProvider::loaded_img = GetImage();
 
     DataProvider::printGrayImage(loaded_img, dim1, dim2);
 }
