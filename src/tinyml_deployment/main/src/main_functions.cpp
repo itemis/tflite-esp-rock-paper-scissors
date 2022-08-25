@@ -10,7 +10,7 @@
 #include "main_functions.h"
 #include "DataProvider.h"
 #include "FeatureProvider.h"
-#include "model_weights.h" // C-string with trained model weights
+#include "micro_model.h" // C-string with trained model weights
 #include "PredictionHandler.h"
 #include "PredictionInterpreter.h"
 #include "tensorflow/lite/micro/kernels/micro_ops.h"
@@ -72,7 +72,7 @@ void setup(){
     error_reporter = &micro_error_reporter; // set error reporter
 
     // import the trained weights from the C string
-    model = tflite::GetModel(model_weights);
+    model = tflite::GetModel(micro_model);
     // assert that model schema version and tflite version match
     if (model->version() != TFLITE_SCHEMA_VERSION) {
     TF_LITE_REPORT_ERROR(error_reporter,

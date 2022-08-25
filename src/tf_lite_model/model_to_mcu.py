@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 
 SRC_MODEL_PATH = Path("bin_model/model_hexgraph.cc")
-DEST_MODEL_PATH = Path("src/tinyml_deployment/main/src/model_weights.cpp")
+DEST_MODEL_PATH = Path("src/tinyml_deployment/main/src/micro_model.cpp")
 
 def read_len() -> int:
     """read C-array length from file"""
@@ -29,7 +29,7 @@ def read_array() -> str:
 def get_cfile_header(array_length) -> str:
     return (f"""
 // We need to keep the data array aligned on some architectures.
-#include "model_weights.h"
+#include "micro_model.h"
 
 // memory management
 #ifdef __has_attribute
@@ -43,8 +43,8 @@ def get_cfile_header(array_length) -> str:
 #define DATA_ALIGN_ATTRIBUTE
 #endif
 
-const unsigned int model_weights_len = {array_length};
-const unsigned char model_weights[] DATA_ALIGN_ATTRIBUTE = """ + "{\n"
+const unsigned int micro_model_len = {array_length};
+const unsigned char micro_model[] DATA_ALIGN_ATTRIBUTE = """ + "{\n"
 )
 
 def get_cfile_footer() -> str:
