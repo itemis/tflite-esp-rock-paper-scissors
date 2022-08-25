@@ -114,7 +114,7 @@ void DataProvider::dataProviderBegin(){
 void DataProvider::gatherData(){
 
     // TODO: set loaded img via camera
-    DataProvider::loaded_img = grayscale;
+    // DataProvider::loaded_img = GetImage();
 
     DataProvider::printGrayImage(loaded_img, dim1, dim2);
 }
