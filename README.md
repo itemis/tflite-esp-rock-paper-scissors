@@ -1,3 +1,5 @@
+![template](https://github.com/itemis/tflite-esp-template/actions/workflows/cmake.yml/badge.svg)
+
 # Rock, Paper, Scissors on ESP-EYE using ESP-IDF, TfLite Micro, FreeRTOS
 
 In this project we develop a model capable of discrimination between rock, paper and scissors visual inputs.
