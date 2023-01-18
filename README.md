@@ -50,7 +50,7 @@ Exit virtual environment
 
 **Espressif IDF**
 
-Version 1.4 is tested.
+Version 4.4 is tested.
 Install via VSCode > Extensions > ESP-IDF > Express installation with all defaults.
 At the end of the installation a command is shown.
 This command should be executed to grant complete permissions.
