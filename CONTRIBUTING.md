@@ -11,6 +11,16 @@ For Python style, we follow [PEP 8](https://peps.python.org/pep-0008/) and [PEP 
 ## C++/Arduino
 
 For C++ we follow the [Google style guide](https://google.github.io/styleguide/cppguide.html).
+We encourage you to run your code against clang-tidy and clang-format.
+Once clang-tidy and clang-format are installed, you can do so as follows.
+
+    cd src/tinyml_deployment
+    get_idf
+    idf.py build
+    chmod +x clean_compile_commands.sh
+    ./clean_compile_commands.sh
+    clang-tidy main/src/*.cpp -p build/
+    clang-format main/src/*.cpp -i
 
 ## Architecture
 

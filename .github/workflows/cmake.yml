@@ -1,0 +1,54 @@
+name: CMake
+
+on:
+  push:
+    branches: [ "main", "cicd"]
+  pull_request:
+    branches: [ "main", "cicd" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+
+    - name: Load submodules
+      run: chmod +x ./src/tinyml_deployment/update_components.sh && ./src/tinyml_deployment/update_components.sh 
+
+    - name: Cache esp-idf build
+      uses: actions/cache@v3
+      with:
+        path: "./src/tinyml_deployment/build"
+        key: ${{ runner.os }}-build
+
+    - name: Esp-idf build
+      uses: espressif/esp-idf-ci-action@v1
+      with:
+        esp_idf_version: v4.4
+        target: esp32
+        path: "./src/tinyml_deployment/"
+
+    - name: Extract compile_commands.json
+      # the following compilation flags originate from esp-idf
+      # they must be removed as they are unknown to clang
+      run: |
+        cp ./src/tinyml_deployment/build/compile_commands.json ./src/tinyml_deployment/
+        sed -i "s/-mlongcalls/ /g" ./src/tinyml_deployment/compile_commands.json
+        sed -i "s/-fno-tree-switch-conversion/ /g" ./src/tinyml_deployment/compile_commands.json
+        sed -i "s/-fstrict-volatile-bitfields/ /g" ./src/tinyml_deployment/compile_commands.json
+        cat ./src/tinyml_deployment/compile_commands.json
+
+    - name: clang-tidy and clang-format
+      uses: cpp-linter/cpp-linter-action@v2
+      id: cpp-linter
+      with:
+        # don't use .clang-format because versions for clang-format versions are incompatible
+        style: google
+        tidy-checks: "" # use .clang-tidy
+        ignore: ".github|img|src/data_collection|src/data_preprocessing|keras_model|tf_lite_model|src/tinyml_deployment/components|src/timyml_deployment/build"
+        files-changed-only: false
