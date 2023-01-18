@@ -20,8 +20,9 @@ jobs:
     - name: Load submodules
       run: chmod +x ./src/tinyml_deployment/update_components.sh && ./src/tinyml_deployment/update_components.sh 
 
-    - name: Cache esp-idf build
-      uses: actions/cache@v3
+    - name: Restore cached esp-idf build
+      id: build-cache-restore
+      uses: actions/cache/restore@v3
       with:
         path: "./src/tinyml_deployment/build"
         key: ${{ runner.os }}-build
@@ -32,6 +33,13 @@ jobs:
         esp_idf_version: v4.4
         target: esp32
         path: "./src/tinyml_deployment/"
+      
+    - name: Save esp-idf to cache
+      id: build-cache-save
+      uses: actions/cache/save@v3
+      with:
+        path: "./src/tinyml_deployment/build"
+        key: ${{ steps.build-cache-restore.outputs.cache-primary-key }}
 
     - name: Extract compile_commands.json
       # the following compilation flags originate from esp-idf
@@ -43,7 +51,7 @@ jobs:
         sed -i "s/-fstrict-volatile-bitfields/ /g" ./src/tinyml_deployment/compile_commands.json
         cat ./src/tinyml_deployment/compile_commands.json
 
-    - name: clang-tidy and clang-format
+    - name: Apply clang-tidy and clang-format
       uses: cpp-linter/cpp-linter-action@v2
       id: cpp-linter
       with:
