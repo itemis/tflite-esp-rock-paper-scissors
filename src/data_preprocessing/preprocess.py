@@ -4,17 +4,11 @@ Overrides original images.
 """
 
 from pathlib import Path
+from typing import List
 import cv2
 import numpy as np
 
-TARGET_DIM = (96, 96)
-DATA_PATH = Path("data") / "raw_images"
-
-# list of classes
-# NOTE: folders names and class names should be identical
-CLASS_LIST = ["rock", "paper", "scissors"]
-
-assert DATA_PATH.exists(), "The path to your train data does not exist!"
+import const
 
 DEBUG = False
 
@@ -29,7 +23,7 @@ def rescale(im_path: Path) -> np.ndarray:
     dim = img.shape[0:2] # discard channels
     short_side = np.argmin(dim)
 
-    scale = TARGET_DIM[short_side] / dim[short_side]
+    scale = const.TARGET_DIM[short_side] / dim[short_side]
     width = int(img.shape[1] * scale)
     height = int(img.shape[0] * scale)
     new_dim = (width, height)
@@ -48,8 +42,8 @@ def crop(img: np.ndarray = None, im_path: Path = None) -> np.ndarray:
         img = cv2.imread(str(im_path))
 
     dim = img.shape
-    x_diff = abs(dim[0] - TARGET_DIM[0])
-    y_diff = abs(dim[1] - TARGET_DIM[1])
+    x_diff = abs(dim[0] - const.TARGET_DIM[0])
+    y_diff = abs(dim[1] - const.TARGET_DIM[1])
     x_half = x_diff // 2
     y_half = y_diff // 2
 
@@ -65,10 +59,14 @@ def rgb_to_gray(img: np.ndarray = None, im_path: Path = None):
 
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-def apply_over_set(class_parent: Path) -> None:
-    for cls in CLASS_LIST: # class folder names
-        # each class folder contains images
-        for im_path in (class_parent / cls).glob("**/*"):
+def apply_over_set(class_dirs: List[Path]) -> None:
+    """apply preprocessing to all images in the provided directories.
+
+    args:
+        class_dirs: list of paths to class directories containing images
+    """
+    for dir in class_dirs: # class folder names
+        for im_path in dir.glob("**/*"):
             # TODO: im_path should point to an image
             print(f"Reshaping {str(im_path)}")
             im = rescale(im_path)
@@ -82,4 +80,5 @@ def apply_over_set(class_parent: Path) -> None:
             cv2.imwrite(str(new_path), im)
 
 
-apply_over_set(DATA_PATH)
+if __name__ == "__main__":
+    apply_over_set(const.DATA_PATH)
