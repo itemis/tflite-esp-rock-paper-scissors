@@ -1,3 +1,4 @@
+from pathlib import Path
 from augmentation_layers import Dilate
 
 from pathlib import Path
@@ -12,7 +13,7 @@ from imagemorph.imagemorph import elastic_morphing
 
 DEBUG = False
 
-class Augmenter:
+class Augmentor:
     """Applies data augmentation directly to training data and writes to file."""
 
     def __init__(self) -> None:
@@ -30,7 +31,7 @@ class Augmenter:
             # i for the kernel size
             # parents[0] gives the path to the current file
             # stem gives the file name without the extension
-            new_path = img_path.parents[0] / (str(img_path.stem) + "e" + str(i) + ".jpg")
+            new_path = img_path.parent / (str(img_path.stem) + "e" + str(i) + ".jpg")
             if DEBUG:
                 cv.imshow("eroded", eroded_img)
             else:
@@ -48,7 +49,7 @@ class Augmenter:
             # i for the kernel size
             # parents[0] gives the path to the current file
             # stem gives the file name without the extension
-            new_path = img_path.parents[0] / (str(img_path.stem) + "d" + str(i) + ".jpg")
+            new_path = img_path.parent / (str(img_path.stem) + "d" + str(i) + ".jpg")
             if DEBUG:
                 cv.imshow("dilated", dilated_img)
             else:
@@ -67,9 +68,9 @@ class Augmenter:
             res = elastic_morphing(original, amp, sigma, h, w)  # morph image
             # m for morphed
             # i for the kernel size
-            # parents[0] gives the path to the current file
+            # parents gives the parent to the current file
             # stem gives the file name without the extension
-            new_path = img_path.parents[0] / (str(img_path.stem) + "m" + str(rep) + ".jpg")
+            new_path = img_path.parent / (str(img_path.stem) + "m" + str(rep) + ".jpg")
             if DEBUG:
                 cv.imshow("morphed", res)
             else:
@@ -94,7 +95,7 @@ class Augmenter:
             distorted = cv.warpAffine(distorted, M_t, (cols, rows))
 
             # save
-            new_path = img_path.parents[0] / (str(img_path.stem) + f"theta{theta}"
+            new_path = img_path.parent / (str(img_path.stem) + f"theta{theta}"
                 + f"tx{t_x}" + f"ty{t_y}" + f"rep{rep}" + ".jpg")
             if DEBUG:
                 cv.imshow("euclidean transform", distorted)
@@ -119,14 +120,15 @@ class Augmenter:
             # Dilate(kernel_min=0, kernel_max=3),
             layers.RandomRotation(factor=[-0.1, 0.1]),
             layers.RandomContrast(factor=0.4),
-            layers.RandomBrightness(factor=[0.1, 0.2]),
+            # TODO: can't find RandomBrightness in tf.keras.layers, tensorflow version 2.9.1
+            # layers.RandomBrightness(factor=[0.1, 0.2]),
             layers.RandomZoom(height_factor=(-0.02, 0.2), width_factor=(-0.02, 0.2)),
         ])
         
         for i in range(reps): # number of augmentations per image
             augmented_image = augment_layers(im)
             
-            new_path = img_path.parents[0] / (str(img_path.stem) + "keras" + str(i) + ".jpg")
+            new_path = img_path.parent / (str(img_path.stem) + "keras" + str(i) + ".jpg")
             
             if DEBUG:
                 fig = plt.figure(frameon=False)
@@ -138,18 +140,33 @@ class Augmenter:
             # TODO: implement saving in grayscale and correct resolution
             # plt.savefig(new_path, cmap='gray')
 
-if __name__ == "__main__":
-    augment_tool = Augmenter()
-    train_images = Path("data") / "train copy" # a directory containing all classes
-    assert train_images.exists(), "The path to your data does not exist!"
-    for cls in ["rock", "paper", "scissors"]: # class folder names
-        # each class folder contains images
-        for im in (train_images / cls).glob("**/*"):
-            print(f"Augmenting {str(im)}")
-            if DEBUG: cv.imshow("original", cv.imread(str(im)))
-            augment_tool.dilate_image(im)
-            augment_tool.erosion_image(im)
-            augment_tool.elastic_morph_wrapper(im)
-            augment_tool.euclidian_transform(im)
-            augment_tool.keras_layers(im)
+    def check_image_morphing_setup(self) -> bool:
+        """Check if the image morphing setup is correct."""
+        current_file_path = Path(__file__).parent.resolve()
+        if (current_file_path / "build").exists():
+            return True
+        else:
+            print("Image morphing has not been built.")
+            return False
 
+    def apply_all_augmentation(self, train_dir: Path):
+        """Apply all augmentation methods to the image at the given path.
+        
+        args:
+            train_dir: path to the training data directory
+        """
+        class_list = [dir for dir in train_dir.iterdir() if dir.is_dir()]
+        for cls in class_list:
+            images = [im for im in cls.iterdir() if im.is_file()]
+            print(images)
+            for im in images:
+                print(f"Augmenting {str(im)}")
+                self.dilate_image(im)
+                self.erosion_image(im)
+                if self.check_image_morphing_setup():
+                    self.elastic_morph_wrapper(im)
+                self.euclidian_transform(im)
+                self.keras_layers(im)
+
+if __name__ == "__main__":
+    pass
