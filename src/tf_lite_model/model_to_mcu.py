@@ -59,6 +59,7 @@ def compose_c_file() -> str:
     return doc
 
 def copy_to_mcu() -> None:
+    print("Copying model to embedded code...")
     doc = compose_c_file()
     with open(DEST_MODEL_PATH, "w") as f:
         f.write(doc)

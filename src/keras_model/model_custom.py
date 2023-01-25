@@ -45,14 +45,8 @@ def make_model_simple_cnn(INPUT_IMG_SHAPE, num_classes=3):
     x = layers.Flatten()(x)
     x = layers.Dropout(0.5)(x)
 
-    if num_classes == 2:
-        activation = "sigmoid"
-        units = 1
-    else:
-        activation = "softmax"
-        units = num_classes
+    outputs = layers.Dense(num_classes, activation="softmax")(x)
 
-    outputs = layers.Dense(units, activation=activation)(x)
     return keras.Model(inputs, outputs)
 
 def make_model_optimized_cnn(INPUT_IMG_SHAPE, num_classes=3):
@@ -113,14 +107,8 @@ def make_model_optimized_cnn(INPUT_IMG_SHAPE, num_classes=3):
         activity_regularizer=keras.regularizers.L2(1e-5),
     )(x)
 
-    if num_classes == 2:
-        activation = "sigmoid"
-        units = 1
-    else:
-        activation = "softmax"
-        units = num_classes
-
-    outputs = layers.Dense(units, activation=activation)(x)
+    outputs = layers.Dense(num_classes, activation="softmax")(x)
+    
     return keras.Model(inputs, outputs)
 
 def make_model_custom(INPUT_IMG_SHAPE, NUM_CLASSES, model_type):
