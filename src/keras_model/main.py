@@ -2,6 +2,8 @@ from model_custom import make_model_custom
 from model_mobile import make_model_mobile
 from model_resnet50 import make_model_resnet50
 from dataset import train_ds, test_ds, INPUT_IMG_SHAPE, BATCH_SIZE
+import importlib.util
+import sys
 
 import argparse
 from pathlib import Path
@@ -45,7 +47,10 @@ def main():
     if args.model == "optimized-cnn":
         print("Custom optimized-cnn model.")
         model = make_model_custom(INPUT_IMG_SHAPE, NUM_CLASSES, args.model)
-    keras.utils.plot_model(model, show_shapes=True, to_file=MODEL_PATH / "model.png")
+    try:
+        keras.utils.plot_model(model, show_shapes=True, to_file=MODEL_PATH / "model.png")
+    except:
+        print("Proceeding without plotting model.")
 
     # define callbacks
     callbacks = []
