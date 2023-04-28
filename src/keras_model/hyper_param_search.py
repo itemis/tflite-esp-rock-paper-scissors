@@ -15,7 +15,7 @@ train_ds = train_ds.prefetch(buffer_size=32)
 test_ds = test_ds.prefetch(buffer_size=32)
 
 def main():
-    # define search paramters
+    # define search paramaters
     tuner = keras_tuner.RandomSearch(
         make_model,
         objective='val_loss',
