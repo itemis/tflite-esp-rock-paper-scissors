@@ -37,7 +37,7 @@ def crop(img: np.ndarray = None, im_path: Path = None) -> np.ndarray:
     Cropping is applied such that all sides are trimmed evenly.
     Function can take an image as numpy array as argument or a path.
     """
-    # read image from file if path was specificed
+    # read image from file if path was specified
     if im_path != None:
         img = cv2.imread(str(im_path))
 
@@ -53,7 +53,7 @@ def crop(img: np.ndarray = None, im_path: Path = None) -> np.ndarray:
 def rgb_to_gray(img: np.ndarray = None, im_path: Path = None):
     """Convert image from RGB with 3 channels to grayscale with 1 channel."""
     
-    # read image from file if path was specificed
+    # read image from file if path was specified
     if im_path != None:
         img = cv2.imread(str(im_path))
 
